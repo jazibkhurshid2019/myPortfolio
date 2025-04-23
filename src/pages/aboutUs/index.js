@@ -23,13 +23,9 @@ const Index = () => {
 
   return (
     <MainDiv>
-      {/* <h1>Welcome To the Home Page</h1> */}
       <div
         style={{
           width: "100%",
-          background: "linear-gradient(to right, black, yellow)",
-          backgroundClip: "text",
-          color: "transparent",
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
@@ -48,9 +44,6 @@ const Index = () => {
             style={{
               fontSize: "4em",
               display: "inline-block",
-              background: "linear-gradient(to right, black, rgb(255, 222, 89))",
-              backgroundClip: "text",
-              color: "transparent",
             }}
           >
             About Me
@@ -66,12 +59,8 @@ const Index = () => {
             style={{
               fontSize: "2em",
               display: "inline-block",
-              background: "linear-gradient(to right, black, rgb(255, 222, 89))",
-              backgroundClip: "text",
-              color: "transparent",
               width: "80%",
               textAlign: "center",
-              // whiteSpace: "nowrap",
             }}
             repeat={Infinity}
           />

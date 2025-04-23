@@ -8,7 +8,7 @@ import { styled } from "@mui/system";
 
 const main = () => {
   return (
-    <div style={{ background: "cornsilk", minHeight: "90vh" }}>
+    <div style={{ background: "cornsilk", minHeight: "calc(100vh-88px)" }}>
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route exact path="/" element={<Home />} />

@@ -54,7 +54,7 @@ const TopNavigation = () => {
   };
 
   const NavigationBar = styled("div")(
-    ({ theme }) => `
+    () => `
     position:sticky;
     top:0;
         display: flex;
@@ -65,30 +65,32 @@ const TopNavigation = () => {
       `
   );
   const NavList = styled("ul")(
-    ({ theme }) => `
+    () => `
         display: inline-flex;
         list-style: none;
         color:white;
       `
   );
   const LogoName = styled("img")(
-    ({ theme }) => `
+    () => `
         height:40px;
       `
   );
-  const DownloadButton = styled(Button)(
-    ({ theme }) => `
+  const DownloadButton = styled("button")(
+    () => `
+    cursor:pointer;
+    padding:10px 15px;
     text-transform: capitalize;
     border:1px solid white;
       color: white;
-      background: linear-gradient(to right, black, rgb(255, 222, 89));
+      background-color: black;
       &:hover {
-        background: linear-gradient(to right, rgb(255, 222, 89), black);
+        background-color:#ffffff33;
       }
     `
   );
   const IndTab = styled(Tab)(
-    ({ theme }) => `
+    () => `
     text-transform: capitalize;
       color: white;
       &:hover {
