@@ -1,11 +1,22 @@
-import { Button } from "@mui/material";
-import * as React from "react";
-import { styled } from "@mui/system";
+import React, { useEffect, useState } from "react";
 import TopNavigation from "./components/topNavigation";
 import MainBody from "./components/main";
+import Splash from "./pages/splash";
 
 const App = () => {
-  return (
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000); // time for splash
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return showSplash ? (
+    <Splash />
+  ) : (
     <>
       <TopNavigation />
       <MainBody />

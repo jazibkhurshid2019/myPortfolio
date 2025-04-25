@@ -29,7 +29,6 @@ const Index = () => {
      
     `
   );
-
   const Image = styled("img")(
     () => `
     height: 440px;
@@ -71,7 +70,7 @@ const Index = () => {
     <MainDiv ref={containerRef}>
       <FunnyButton
         ref={buttonRef}
-        onMouseOver={handleHover}
+        onMouseEnter={handleHover}
         style={{
           background: "black",
           position: "absolute",
