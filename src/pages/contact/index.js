@@ -1,27 +1,56 @@
 import React, { useRef, useState } from "react";
-import { styled } from "@mui/system";
 import {
+  Typography,
   Box,
-  Button,
+  Container,
   Grid,
   TextField,
-  Typography,
-  Container,
-  Divider,
+  Button,
+  Snackbar,
+  Alert,
+  IconButton,
+  Link,
 } from "@mui/material";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import styled from "@emotion/styled";
 import emailjs from "emailjs-com";
-import { Alert, Snackbar } from "@mui/material";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import FacebookrIcon from "@mui/icons-material/Facebook";
+import { useTheme } from "@mui/material";
 
-const Index = () => {
+const ContactCard = styled(Box)(({ theme }) => ({
+  background: theme.palette.card.primary,
+  borderRadius: "20px",
+  padding: "2rem",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  backdropFilter: "blur(10px)",
+  "&:hover": {
+    transform: "translateY(-10px)",
+    transition: "transform 0.3s ease",
+  },
+}));
+
+const Contact = () => {
+  const theme = useTheme();
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState({
+  const formRef = useRef(null);
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+
+  const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "",
+    severity: "success",
   });
-  const formRef = useRef(null);
 
-  const sendEmail = (e) => {
+  const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
 
@@ -34,7 +63,7 @@ const Index = () => {
       )
       .then(
         (result) => {
-          setAlert({
+          setSnackbar({
             open: true,
             message: "Message sent successfully!",
             severity: "success",
@@ -44,7 +73,7 @@ const Index = () => {
           console.log(result.text);
         },
         (error) => {
-          setAlert({
+          setSnackbar({
             open: true,
             message: "Failed to send message.",
             severity: "error",
@@ -55,184 +84,278 @@ const Index = () => {
         }
       );
   };
-  const Section = styled("section")(({ theme }) => ({
-    padding: theme.spacing(8, 2),
-    backgroundColor: "tranparent",
-  }));
 
-  const SectionHeading = styled(Box)(({ theme }) => ({
-    textAlign: "center",
-    marginTop: theme.spacing(6),
-  }));
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-  const LineDec = styled(Divider)(({ theme }) => ({
-    width: 80,
-    margin: "16px auto",
-    background: "black",
-    // background: "linear-gradient(to right, black, rgb(255, 222, 89))",
-    height: 3,
-  }));
-
-  const StyledForm = styled("form")(() => ({
-    backgroundColor: "#fff",
-    padding: 32, // instead of theme.spacing
-    borderRadius: 8,
-    boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-  }));
-  const MainDiv = styled("div")(
-    () => `
-        display: flex;
-        align-items: center;
-        flex-direction:column;
-        justify-content: center;
-       
-      `
-  );
-  const Image = styled("img")(
-    () => `
-        height:350px;
-        width:100%;
-      `
-  );
-  const ProfileImage = styled("img")(
-    () => `
-        height:350px;
-      `
-  );
-  const Text = styled("p")(
-    () => `
-     margin: 40px 0px;
-        font-size:22px;
-        display:inline-block;
-        width:80%;
-        text-align:center;
-      `
-  );
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
-    <MainDiv>
-      <Image src={require("../../components/images/contact.jpg")} alt="logo" />
-      <SectionHeading>
-        <h2
-          style={{
-            fontSize: "4em",
-            display: "inline-block",
-          }}
-        >
-          Contact Me
-        </h2>
-      </SectionHeading>
-      <Text>
-        Thank you for your interest in getting in touch with me. I welcome your
-        feedback, questions, and suggestions. If you have a specific question or
-        comment, please feel free to email me directly at{" "}
-        <strong>jazib9626@gmail.com</strong>. I make an effort to respond to all
-        messages within 24 hours, although it may take me longer during busy
-        periods. Alternatively, you can use the contact form on my website to
-        get in touch. Simply fill out the required fields and I'll get back to
-        you as soon as possible.
-      </Text>
-      <StyledForm ref={formRef} onSubmit={sendEmail}>
-        <div style={{ textAlign: "center" }}>
-          <Typography variant="h4" component="h2" fontWeight="bold">
-            Contact Form
-          </Typography>
-          <LineDec />
-        </div>
+    <Box
+      sx={{
+        minHeight: "calc(100vh - 88px)",
+      }}
+    >
+      <Container maxWidth="lg">
+        <Box ref={ref}>
+          <motion.div
+            initial="hidden"
+            animate={inView ? "show" : "hidden"}
+            variants={container}
+          >
+            <motion.div variants={item}>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontSize: "2.5rem",
+                  fontWeight: 700,
+                  color: "#ffde59",
+                  mb: 4,
+                  pt: 4,
+                }}
+              >
+                Get In Touch
+              </Typography>
+            </motion.div>
 
-        <Section id="contact">
-          <Container maxWidth="md">
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Your name"
-                  name="name"
-                  variant="outlined"
-                />
+                <motion.div variants={item}>
+                  <ContactCard>
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ color: "#ffde59" }}
+                    >
+                      Contact Information
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: theme.palette.text.primary,
+                        lineHeight: 1.6,
+                        fontSize: "0.95rem",
+                        mb: 3,
+                      }}
+                    >
+                      Feel free to reach out to me for any inquiries or
+                      opportunities. I'm always open to discussing new projects,
+                      creative ideas, or opportunities to be part of your
+                      visions.
+                    </Typography>
+                    <Box sx={{ mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          color: theme.palette.text.primary,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Email
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.text.primary,
+                          fontSize: "0.95rem",
+                        }}
+                      >
+                        jazib9626@gmail.com
+                      </Typography>
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          color: theme.palette.text.primary,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Location
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.text.primary,
+                          fontSize: "0.95rem",
+                        }}
+                      >
+                        Abbottabad, Pakistan
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          color: theme.palette.text.primary,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Social Media
+                      </Typography>
+                      <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+                        <Link
+                          href="https://www.linkedin.com/in/jazib-khurshid/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconButton
+                            sx={{
+                              color: theme.palette.text.primary,
+                              "&:hover": {
+                                color: "#ffde59",
+                                transform: "translateY(-2px)",
+                                transition: "all 0.3s ease",
+                              },
+                            }}
+                          >
+                            <LinkedInIcon />
+                          </IconButton>
+                        </Link>
+                        <Link
+                          href="https://github.com/jazibkhurshid2019"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconButton
+                            sx={{
+                              color: theme.palette.text.primary,
+                              "&:hover": {
+                                color: "#ffde59",
+                                transform: "translateY(-2px)",
+                                transition: "all 0.3s ease",
+                              },
+                            }}
+                          >
+                            <GitHubIcon />
+                          </IconButton>
+                        </Link>
+                        <Link
+                          href="https://www.facebook.com/jazib.khan.10/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconButton
+                            sx={{
+                              color: theme.palette.text.primary,
+                              "&:hover": {
+                                color: "#ffde59",
+                                transform: "translateY(-2px)",
+                                transition: "all 0.3s ease",
+                              },
+                            }}
+                          >
+                            <FacebookrIcon />
+                          </IconButton>
+                        </Link>
+                      </Box>
+                    </Box>
+                  </ContactCard>
+                </motion.div>
               </Grid>
+
               <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Your email"
-                  name="email"
-                  type="email"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Subject"
-                  name="subject"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Your message"
-                  name="message"
-                  multiline
-                  rows={6}
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12} textAlign="center">
-                <Button
-                  disabled={loading}
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    background: "black",
-                    color: "#fff",
-                    px: 4,
-                    py: 1.5,
-                    textTransform: "capitalize",
-                    opacity: loading && "0.7",
-                    fontWeight: "bold",
-                    "&:hover": {
-                      background: "black",
-                      opacity: "0.9",
-                    },
-                  }}
-                >
-                  Send Message
-                </Button>
+                <motion.div variants={item}>
+                  <ContactCard>
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ color: "#ffde59" }}
+                    >
+                      Send a Message
+                    </Typography>
+                    <form ref={formRef} onSubmit={handleSubmit}>
+                      <TextField
+                        fullWidth
+                        label="Name"
+                        name="name"
+                        margin="normal"
+                        required
+                        sx={{ mb: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        type="email"
+                        margin="normal"
+                        required
+                        sx={{ mb: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Subject"
+                        name="subject"
+                        margin="normal"
+                        required
+                        sx={{ mb: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Message"
+                        name="message"
+                        margin="normal"
+                        required
+                        multiline
+                        rows={4}
+                        sx={{ mb: 3 }}
+                      />
+                      <Button
+                        disabled={loading}
+                        type="submit"
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "#ffde59",
+                          color: "#000",
+                          "&:hover": {
+                            backgroundColor: "#ffd700",
+                          },
+                        }}
+                      >
+                        Send Message
+                      </Button>
+                    </form>
+                  </ContactCard>
+                </motion.div>
               </Grid>
             </Grid>
-          </Container>
-        </Section>
-      </StyledForm>
-      <div style={{ display: "flex", margin: "40px 0px" }}>
-        <ProfileImage
-          src={require("../../components/images/profile.jpg")}
-          alt="logo"
-        />
-        <div style={{ position: "relative" }}>
-          <Image src={require("../../components/images/logo.png")} alt="logo" />
-        </div>
-      </div>
+          </motion.div>
+        </Box>
+      </Container>
+
       <Snackbar
-        open={alert.open}
-        autoHideDuration={4000}
-        onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
         <Alert
-          onClose={() => setAlert({ ...alert, open: false })}
-          severity={alert.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
           sx={{ width: "100%" }}
         >
-          {alert.message}
+          {snackbar.message}
         </Alert>
       </Snackbar>
-    </MainDiv>
+    </Box>
   );
 };
 
-export default Index;
+export default Contact;

@@ -1,159 +1,130 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { styled } from "@mui/system";
-import { Button } from "@mui/material";
+import { Typography, Box, Container, useTheme } from "@mui/material";
 import { TypeAnimation } from "react-type-animation";
+import { motion } from "framer-motion";
 
-const FunnyButton = styled(Button)(
-  () => `
-    padding: 10px;
-    text-transform: capitalize;
-    border: 1px solid transparent;
-    color: white;
-    transition: left 0.3s ease-in-out, bottom 0.3s ease-in-out;
-    cursor: pointer;
-    position: absolute;
-    background: black;
+const HeroSection = styled(Box)(
+  ({ theme }) => `
+    height: calc(100vh - 88px);
+    display: flex;
+    align-items: center;
+    width:100%;
+    position: relative;
+  `
+);
+
+const ContentWrapper = styled(Box)(
+  ({ theme }) => `
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    ${theme.breakpoints.down("md")} {
+      flex-direction: column;
+      text-align: center;
+    }
+  `
+);
+
+const TextContent = styled(Box)(
+  ({ theme }) => `
+    flex: 1;
+    max-width: 600px;
+  `
+);
+
+const ImageWrapper = styled(Box)(
+  ({ theme }) => `
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `
+);
+
+const StyledImage = styled("img")(
+  ({ theme }) => `
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   `
 );
 
 const Index = () => {
-  const MainDiv = styled("div")(
-    () => `
-     height: calc(100vh - 88px);
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     position: relative;
-
-     
-    `
-  );
-  const Image = styled("img")(
-    () => `
-    height: 440px;
-    width: 440px;
-  `
-  );
-
-  const buttonRef = useRef(null);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const button = buttonRef.current;
-    if (!button) return;
-
-    const buttonWidth = buttonRef.current?.offsetWidth || 0;
-    const buttonHeight = buttonRef.current?.offsetHeight || 0;
-
-    const startX = (containerRef.current.offsetWidth - buttonWidth) / 2;
-    const startY = (containerRef.current.offsetHeight - buttonHeight) / 2;
-
-    button.style.transform = `translate(${startX - 10}px, ${startY - 10}px)`;
-  }, []);
-
-  const handleHover = () => {
-    const button = buttonRef.current;
-    if (!button) return;
-    const buttonWidth = buttonRef.current?.offsetWidth || 0;
-    const buttonHeight = buttonRef.current?.offsetHeight || 0;
-
-    const newX =
-      (Math.random() * (containerRef.current.offsetWidth - buttonWidth)) / 2;
-    const newY =
-      (Math.random() * (containerRef.current.offsetHeight - buttonHeight)) / 2;
-
-    button.style.transform = `translate(${newX}px, ${newY}px)`;
-  };
-
+  const theme = useTheme();
   return (
-    <MainDiv ref={containerRef}>
-      <FunnyButton
-        ref={buttonRef}
-        onMouseEnter={handleHover}
-        style={{
-          background: "black",
-          position: "absolute",
-          transition: "transform 0.3s ease-in-out",
-          transform: "translate()",
-        }}
-      >
-        Click Here For Free Hire
-      </FunnyButton>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "50%",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <TypeAnimation
-            sequence={[`Hello,`, 1000]}
-            wrapper="span"
-            cursor={false}
-            speed={50}
-            style={{
-              fontSize: "2em",
-              display: "inline-block",
-              whiteSpace: "nowrap",
-            }}
-            repeat={Infinity}
-          />
-          <h2
-            style={{
-              fontSize: "2em",
-              display: "inline-block",
-            }}
-          >
-            Welcome to my website!
-          </h2>
-          <h2
-            style={{
-              fontSize: "2em",
-              display: "inline-block",
-            }}
-          >
-            My Name is Jazib Khurshid
-          </h2>
-
-          <TypeAnimation
-            sequence={[`I'm a Full Stack Developer`, 1000]}
-            wrapper="span"
-            speed={50}
-            style={{
-              fontSize: "2em",
-              display: "inline-block",
-              whiteSpace: "nowrap",
-            }}
-            repeat={Infinity}
-          />
-        </div>
-        <div
-          style={{
-            width: "50%",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {" "}
-          <Image
-            src={require("../../components/images/mainPage.png")}
-            alt="logo"
-          />
-        </div>
-      </div>
-    </MainDiv>
+    <HeroSection>
+      <Container maxWidth="lg">
+        <ContentWrapper>
+          <TextContent>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Typography
+                variant="h4"
+                color={theme.palette.text.primary}
+                gutterBottom
+              >
+                Hello, I'm
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: "bold",
+                  mb: 2,
+                  color: theme.palette.text.primary,
+                }}
+              >
+                Jazib Khurshid
+              </Typography>
+              <TypeAnimation
+                sequence={[
+                  "Full Stack Developer",
+                  2000,
+                  "Web Developer",
+                  2000,
+                  "Software Engineer",
+                  2000,
+                ]}
+                wrapper="span"
+                speed={50}
+                style={{
+                  fontSize: "1.5rem",
+                  display: "block",
+                  color: "#ffde59",
+                  marginBottom: "1.5rem",
+                }}
+                repeat={Infinity}
+              />
+              <Typography
+                variant="body1"
+                sx={{ mb: 3, color: theme.palette.text.primary }}
+              >
+                I create exceptional digital experiences through clean,
+                efficient code and innovative solutions. Let's build something
+                amazing together.
+              </Typography>
+            </motion.div>
+          </TextContent>
+          <ImageWrapper>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <StyledImage
+                src={require("../../components/images/mainPage.png")}
+                alt="Jazib Khurshid - Full Stack Developer"
+              />
+            </motion.div>
+          </ImageWrapper>
+        </ContentWrapper>
+      </Container>
+    </HeroSection>
   );
 };
 
