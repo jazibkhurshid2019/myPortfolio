@@ -5,14 +5,11 @@ import AboutUs from "../pages/aboutUs";
 import Contact from "../pages/contact";
 import Skills from "../pages/skills";
 import Projects from "../pages/projects";
-import { useTheme } from "@mui/material";
 
 const Main = () => {
-  const theme = useTheme();
   return (
     <div
       style={{
-        background: theme.palette.secondary.main,
         minHeight: "calc(100vh-88px)",
       }}
     >

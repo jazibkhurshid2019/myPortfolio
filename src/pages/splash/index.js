@@ -4,17 +4,22 @@ import styled, { keyframes } from "styled-components";
 const moveAndFade = keyframes`
   0% {
     transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     opacity: 1;
   }
-      50% {
+  50% {
     transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     opacity: 1;
   }
-      100% {
-    transform: translate(-565%, -1120%);
+  100% {
+    transform: translate(0, 0);
+    top: 25px;
+    left: 24px;
     opacity: 1;
   }
-
 `;
 
 const SplashContainer = styled.div`
@@ -27,23 +32,23 @@ const SplashContainer = styled.div`
   position: relative;
 `;
 
-const LogoImage = styled.img`
+const LogoName = styled.h1`
+  font-size: 20px;
+  color: #ffde59;
   position: absolute;
-  height: 40px !important;
   top: 50%;
   left: 50%;
   height: 80px;
   transform: translate(-50%, -50%);
-  animation: ${moveAndFade} 3s ease-in-out forwards;
+  animation: ${moveAndFade} 2s ease-in-out forwards;
 `;
 
 const Splash = () => {
   return (
     <SplashContainer>
-      <LogoImage
-        src={require("../../components/images/light.png")}
-        alt="logo"
-      />
+      <LogoName>
+        <span style={{ color: "white" }}>Jazib</span> Khurshid
+      </LogoName>
     </SplashContainer>
   );
 };

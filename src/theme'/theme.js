@@ -1,11 +1,23 @@
 // src/theme/theme.js
 
 export const getDesignTokens = (mode) => ({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     mode,
     ...(mode === "light"
       ? {
           // Light mode colors
+          body: {
+            primary: "#f2f4f4",
+          },
           primary: {
             main: "#2D3250", // Deep blue
             light: "#424769", // Lighter blue
@@ -31,6 +43,9 @@ export const getDesignTokens = (mode) => ({
         }
       : {
           // Dark mode colors
+          body: {
+            primary: "#0000",
+          },
           primary: {
             main: "#F9B17A", // Warm orange
             light: "#FFD3B6", // Light orange
@@ -58,31 +73,98 @@ export const getDesignTokens = (mode) => ({
   typography: {
     fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
+      fontSize: "2.5rem",
       fontWeight: 700,
+      "@media (max-width:600px)": {
+        fontSize: "2rem",
+      },
     },
     h2: {
+      fontSize: "2rem",
       fontWeight: 600,
+      "@media (max-width:600px)": {
+        fontSize: "1.75rem",
+      },
     },
     h3: {
+      fontSize: "1.75rem",
       fontWeight: 600,
+      "@media (max-width:600px)": {
+        fontSize: "1.5rem",
+      },
     },
     h4: {
+      fontSize: "1.5rem",
       fontWeight: 500,
+      "@media (max-width:600px)": {
+        fontSize: "1.25rem",
+      },
     },
     h5: {
+      fontSize: "1.25rem",
       fontWeight: 500,
+      "@media (max-width:600px)": {
+        fontSize: "1.1rem",
+      },
     },
     h6: {
+      fontSize: "1rem",
       fontWeight: 500,
+      "@media (max-width:600px)": {
+        fontSize: "0.9rem",
+      },
+    },
+    body1: {
+      fontSize: "1rem",
+      "@media (max-width:600px)": {
+        fontSize: "0.9rem",
+      },
+    },
+    body2: {
+      fontSize: "0.875rem",
+      "@media (max-width:600px)": {
+        fontSize: "0.8rem",
+      },
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          padding: 0,
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        },
+        "#root": {
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          padding: "0 24px",
+          "@media (max-width:600px)": {
+            padding: "0 16px",
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: 8,
           textTransform: "none",
           fontWeight: 500,
+          padding: "8px 16px",
+          "@media (max-width:600px)": {
+            padding: "6px 12px",
+            fontSize: "0.875rem",
+          },
         },
       },
     },
@@ -91,6 +173,9 @@ export const getDesignTokens = (mode) => ({
         root: {
           borderRadius: 12,
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          "@media (max-width:600px)": {
+            borderRadius: 8,
+          },
         },
       },
     },
@@ -99,6 +184,10 @@ export const getDesignTokens = (mode) => ({
         root: {
           backgroundColor: mode === "light" ? "#FFFFFF" : "#1E1E1E",
           color: mode === "light" ? "#2D3250" : "#FFFFFF",
+          padding: "8px 0",
+          "@media (max-width:600px)": {
+            padding: "4px 0",
+          },
         },
       },
     },
